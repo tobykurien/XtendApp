@@ -6,6 +6,7 @@
 
     <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
 
+    <!-- Replace this TextView with a FrameLayout to inject fragments -->
     <TextView
         android:id="@+id/message"
         android:text="@string/hello_world"
@@ -13,5 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:padding="16dp"/>
+
+    <!--
+        <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"/>
+
+    -->
 
 </RelativeLayout>
