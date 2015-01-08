@@ -11,6 +11,15 @@ import static extension org.xtendroid.utils.AlertUtils.*
    @OnCreate
    def init() {
       message.text = "Hello, Xtend!"
+
+      setupToolbar()
+   }
+
+   def setupToolbar()
+   {
+        supportActionBar = toolbar
+        supportActionBar.displayHomeAsUpEnabled = true
    }
 
 }
+
