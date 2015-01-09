@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/toolbar_actionbar"
+        android:id="@+id/toolbar"
         layout="@layout/toolbar_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -14,7 +14,7 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_actionbar">
+        android:layout_below="@id/toolbar">
 
         <FrameLayout
             android:id="@+id/container"
