@@ -1,17 +1,14 @@
 package com.tobykurien.xtendapp
 
 import android.support.v7.app.ActionBarActivity
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.Toolbar
-import android.support.v4.widget.DrawerLayout
 import android.content.res.Configuration
 import android.widget.ArrayAdapter
-import android.app.Activity
-import android.view.View
 
 import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
+
 //import static extension org.xtendroid.utils.AlertUtils.*
+import static extension com.tobykurien.xtendapp.Settings.*
 
 
 @AndroidActivity(R.layout.activity_main_blacktoolbar) class MainActivity extends ActionBarActivity {
@@ -73,29 +70,4 @@ import org.xtendroid.app.OnCreate
    }
 
 }
-
-/**
- *
- * TODO
- * - write to preferences after the drawer has been opened for the first time,
- *   e.g. use-case: [ShowCaseView](https://github.com/amlcurran/ShowcaseView)
- */
-class MyActionBarDrawerToggle extends ActionBarDrawerToggle
-{
-    public new(Activity context, DrawerLayout drawerLayout, Toolbar toolbar)
-    {
-        super(context, drawerLayout, toolbar, 0, 0)
-    }
-
-    override onDrawerClosed(View view)
-    {
-        super.onDrawerClosed(view)
-    }
-
-    override onDrawerOpened(View view)
-    {
-        super.onDrawerOpened(view)
-    }
-}
-
 

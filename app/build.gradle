@@ -26,4 +26,5 @@ dependencies {
     //compile 'com.github.tobykurien:xtendroid:0.11.+'
     xtendCompileOnly 'org.eclipse.xtend:org.eclipse.xtend.lib:2.7.+'
     compile 'org.eclipse.xtext:org.eclipse.xtext.xbase.lib.slim:2.7.+'
+    compile 'com.google.guava:guava:18.+'
 }
