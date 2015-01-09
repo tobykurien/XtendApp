@@ -13,12 +13,7 @@ import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
 //import static extension org.xtendroid.utils.AlertUtils.*
 
-/**
- *
- * TODO
- * - write to preferences after the drawer has been opened for the first time,
- *   e.g. use-case: [ShowCaseView](https://github.com/amlcurran/ShowcaseView)
- */
+
 @AndroidActivity(R.layout.activity_main_blacktoolbar) class MainActivity extends ActionBarActivity {
 
    @OnCreate
@@ -35,7 +30,7 @@ import org.xtendroid.app.OnCreate
 
        val String[] arrayOfWords = #["Hello", "Xtend"]
        listView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
-       listView.onItemClickListener = [parent, view, position, id| /* do something */ ];
+       listView.onItemClickListener = [parent, view, position, id| /* TODO do something, e.g. put a fragment in the container */ ];
 
        val drawer = drawerLayout
 
@@ -79,7 +74,12 @@ import org.xtendroid.app.OnCreate
 
 }
 
-
+/**
+ *
+ * TODO
+ * - write to preferences after the drawer has been opened for the first time,
+ *   e.g. use-case: [ShowCaseView](https://github.com/amlcurran/ShowcaseView)
+ */
 class MyActionBarDrawerToggle extends ActionBarDrawerToggle
 {
     public new(Activity context, DrawerLayout drawerLayout, Toolbar toolbar)
