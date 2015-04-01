@@ -1,17 +1,27 @@
 package com.tobykurien.xtendapp
 
 import android.support.v7.app.ActionBarActivity
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.Toolbar
-import android.support.v4.widget.DrawerLayout
+import android.support.v4.app.Fragment
 import android.content.res.Configuration
 import android.widget.ArrayAdapter
-import android.app.Activity
-import android.view.View
 
 import org.xtendroid.app.AndroidActivity
+import org.xtendroid.annotations.AndroidFragment
 import org.xtendroid.app.OnCreate
+
 //import static extension org.xtendroid.utils.AlertUtils.*
+import static extension com.tobykurien.xtendapp.Settings.*
+
+
+@AndroidFragment(R.layout.fragment_one) class FragmentOne extends Fragment
+{
+
+}
+
+@AndroidFragment(R.layout.fragment_two) class FragmentTwo extends Fragment
+{
+
+}
 
 
 @AndroidActivity(R.layout.activity_main) class MainActivity extends ActionBarActivity {
@@ -23,12 +33,26 @@ import org.xtendroid.app.OnCreate
        setupDrawerLayout()
    }
 
-   def setupDrawerLayout() {
+   def addFragment(int position)
+   {
+        val tx = supportFragmentManager.beginTransaction
+        var Fragment frag =
+        if (position == 0)
+            new FragmentOne() as Fragment
+        else
+            new FragmentTwo() as Fragment
+        tx.replace(R.id.container, frag).addToBackStack(null).commit();
+   }
+
+   def setupDrawerLayout()
+   {
+       val listView = drawerListView
+
        val String[] arrayOfWords = #["Hello", "Xtend"]
-       drawerListView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
-       drawerListView.onItemClickListener = [parent, view, position, id|
-         /* TODO do something, e.g. put a fragment in the container */
-       ];
+       listView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
+       listView.onItemClickListener = [parent, view, position, id| addFragment(position) ];
+
+       val drawer = drawerLayout
 
        actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
 
@@ -63,29 +87,4 @@ import org.xtendroid.app.OnCreate
    }
 
 }
-
-/**
- *
- * TODO
- * - write to preferences after the drawer has been opened for the first time,
- *   e.g. use-case: [ShowCaseView](https://github.com/amlcurran/ShowcaseView)
- */
-class MyActionBarDrawerToggle extends ActionBarDrawerToggle
-{
-    public new(Activity context, DrawerLayout drawerLayout, Toolbar toolbar)
-    {
-        super(context, drawerLayout, toolbar, 0, 0)
-    }
-
-    override onDrawerClosed(View view)
-    {
-        super.onDrawerClosed(view)
-    }
-
-    override onDrawerOpened(View view)
-    {
-        super.onDrawerOpened(view)
-    }
-}
-
 

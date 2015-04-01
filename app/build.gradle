@@ -31,5 +31,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     //compile 'com.github.tobykurien:xtendroid:0.12.0'
     xtendCompileOnly 'org.eclipse.xtend:org.eclipse.xtend.lib:2.8.1'
-    compile 'org.eclipse.xtext:org.eclipse.xtext.xbase.lib.slim:2.8.1'
+    compile 'org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.8.1'
 }
