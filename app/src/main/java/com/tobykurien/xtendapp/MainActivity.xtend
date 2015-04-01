@@ -14,7 +14,8 @@ import org.xtendroid.app.OnCreate
 //import static extension org.xtendroid.utils.AlertUtils.*
 
 
-@AndroidActivity(R.layout.activity_main_blacktoolbar) class MainActivity extends ActionBarActivity {
+@AndroidActivity(R.layout.activity_main) class MainActivity extends ActionBarActivity {
+   MyActionBarDrawerToggle actionBarDrawerToggle
 
    @OnCreate
    def init() {
@@ -22,39 +23,28 @@ import org.xtendroid.app.OnCreate
        setupDrawerLayout()
    }
 
-   MyActionBarDrawerToggle actionBarDrawerToggle
-
-   def setupDrawerLayout()
-   {
-       val listView = drawerListView
-
+   def setupDrawerLayout() {
        val String[] arrayOfWords = #["Hello", "Xtend"]
-       listView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
-       listView.onItemClickListener = [parent, view, position, id| /* TODO do something, e.g. put a fragment in the container */ ];
+       drawerListView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
+       drawerListView.onItemClickListener = [parent, view, position, id|
+         /* TODO do something, e.g. put a fragment in the container */
+       ];
 
-       val drawer = drawerLayout
-
-       actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawer, toolbar)
+       actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
 
        // This following line actually reveals the hamburger
-       drawer.post([|actionBarDrawerToggle.syncState()]);
+       drawerLayout.post [
+         actionBarDrawerToggle.syncState()
+       ];
 
-       drawer.drawerListener = actionBarDrawerToggle
+       drawerLayout.drawerListener = actionBarDrawerToggle
    }
 
-   def setupToolbar()
-   {
-        supportActionBar = toolbar
+   def setupToolbar() {
+        setSupportActionBar(toolbar)
         val actionBar = supportActionBar
         actionBar.displayHomeAsUpEnabled = true
    }
-
-   /*
-   override setTitle(CharSequence title)
-   {
-       super.setTitle(title)
-       actionBar.title = title
-   }*/
 
    override onBackPressed() {
        val listView = drawerListView
