@@ -12,18 +12,15 @@ import org.xtendroid.app.OnCreate
 //import static extension org.xtendroid.utils.AlertUtils.*
 import static extension com.tobykurien.xtendapp.Settings.*
 
-
-@AndroidFragment(R.layout.fragment_one) class FragmentOne extends Fragment
-{
-
+// Sample fragment 1
+@AndroidFragment(R.layout.fragment_one) class FragmentOne extends Fragment {
 }
 
-@AndroidFragment(R.layout.fragment_two) class FragmentTwo extends Fragment
-{
-
+// Sample fragment 2
+@AndroidFragment(R.layout.fragment_two) class FragmentTwo extends Fragment {
 }
 
-
+// Main activity
 @AndroidActivity(R.layout.activity_main) class MainActivity extends ActionBarActivity {
    MyActionBarDrawerToggle actionBarDrawerToggle
 
@@ -33,26 +30,31 @@ import static extension com.tobykurien.xtendapp.Settings.*
        setupDrawerLayout()
    }
 
-   def addFragment(int position)
-   {
+   def addFragment(int position) {
         val tx = supportFragmentManager.beginTransaction
-        var Fragment frag =
-        if (position == 0)
-            new FragmentOne() as Fragment
-        else
-            new FragmentTwo() as Fragment
+        var frag = switch (position) {
+            case 0: new FragmentOne()
+            case 1: new FragmentTwo()
+            default: new FragmentOne()
+        }
+
         tx.replace(R.id.container, frag).addToBackStack(null).commit();
    }
 
-   def setupDrawerLayout()
-   {
+   def setupDrawerLayout() {
+       val drawer = drawerLayout
        val listView = drawerListView
 
        val String[] arrayOfWords = #["Hello", "Xtend"]
        listView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
-       listView.onItemClickListener = [parent, view, position, id| addFragment(position) ];
+       listView.onItemClickListener = [parent, view, position, id|
+         // close the drawer when an item is clicked
+         if (drawerLayout.isDrawerOpen(listView)) {
+           drawerLayout.closeDrawer(listView)
+         }
 
-       val drawer = drawerLayout
+         addFragment(position)
+       ];
 
        actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
 
@@ -72,10 +74,11 @@ import static extension com.tobykurien.xtendapp.Settings.*
 
    override onBackPressed() {
        val listView = drawerListView
-       if (drawerLayout.isDrawerOpen(listView))
+       if (drawerLayout.isDrawerOpen(listView)) {
            drawerLayout.closeDrawer(listView)
-       else
+       } else {
            super.onBackPressed()
+       }
    }
 
    /**
@@ -85,6 +88,4 @@ import static extension com.tobykurien.xtendapp.Settings.*
        super.onConfigurationChanged(newConfig);
        actionBarDrawerToggle.onConfigurationChanged(newConfig);
    }
-
 }
-
