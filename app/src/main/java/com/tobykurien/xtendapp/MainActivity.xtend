@@ -9,8 +9,8 @@ import org.xtendroid.app.AndroidActivity
 import org.xtendroid.annotations.AndroidFragment
 import org.xtendroid.app.OnCreate
 
-//import static extension org.xtendroid.utils.AlertUtils.*
 import static extension com.tobykurien.xtendapp.Settings.*
+import org.xtendroid.utils.BgTask
 
 // Sample fragment 1
 @AndroidFragment(R.layout.fragment_one) class FragmentOne extends Fragment {
@@ -26,66 +26,84 @@ import static extension com.tobykurien.xtendapp.Settings.*
 
    @OnCreate
    def init() {
-       setupToolbar()
-       setupDrawerLayout()
+      setupToolbar()
+      setupDrawerLayout()
    }
 
    def addFragment(int position) {
-        val tx = supportFragmentManager.beginTransaction
-        var frag = switch (position) {
-            case 0: new FragmentOne()
-            case 1: new FragmentTwo()
-            default: new FragmentOne()
-        }
+      // create a new fragment each time. Change this to cache fragments as necessary.
+      var frag = switch (position) {
+         case 0: new FragmentOne()
+         case 1: new FragmentTwo()
+         default: new FragmentOne()
+      }
 
-        tx.replace(R.id.container, frag).addToBackStack(null).commit();
+      supportFragmentManager
+         .beginTransaction
+         .replace(R.id.container, frag, String.valueOf(position))
+         .commit();
    }
 
    def setupDrawerLayout() {
-       val drawer = drawerLayout
-       val listView = drawerListView
+      val listView = drawerListView
 
-       val String[] arrayOfWords = #["Hello", "Xtend"]
-       listView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
-       listView.onItemClickListener = [parent, view, position, id|
+      val String[] arrayOfWords = #["Hello", "Xtend"]
+      listView.adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, arrayOfWords)
+      listView.onItemClickListener = [ parent, view, position, id |
          // close the drawer when an item is clicked
          if (drawerLayout.isDrawerOpen(listView)) {
-           drawerLayout.closeDrawer(listView)
+            drawerLayout.closeDrawer(listView)
+            
+            // wait till drawer closes before loading fragment
+            actionBarDrawerToggle.onClosed = [
+               addFragment(position)
+            ]
          }
+      ];
 
-         addFragment(position)
-       ];
+      actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
+      drawerLayout.drawerListener = actionBarDrawerToggle
 
-       actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
-
-       // This following line actually reveals the hamburger
-       drawerLayout.post [
+      // This following line actually reveals the hamburger
+      drawerLayout.post [
          actionBarDrawerToggle.syncState()
-       ];
+      ];
 
-       drawerLayout.drawerListener = actionBarDrawerToggle
+      // open the drawer on first launch to show user that it exists
+      if (!settings.drawerLearned) {
+         new BgTask().runInBg([
+            // wait for UI to be displayed before opening drawer, 
+            // so that user can see the animation and know where the 
+            // drawer comes from
+            Thread.sleep(2_000)
+            return null
+         ], [
+            // open the drawer. When user closes drawer, settings.drawerLearned will be updated
+            drawerLayout.openDrawer(listView)
+         ])
+      }
    }
 
    def setupToolbar() {
-        setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        actionBar.displayHomeAsUpEnabled = true
+      setSupportActionBar(toolbar)
+      val actionBar = supportActionBar
+      actionBar.displayHomeAsUpEnabled = true
    }
 
    override onBackPressed() {
-       val listView = drawerListView
-       if (drawerLayout.isDrawerOpen(listView)) {
-           drawerLayout.closeDrawer(listView)
-       } else {
-           super.onBackPressed()
-       }
+      val listView = drawerListView
+      if (drawerLayout.isDrawerOpen(listView)) {
+         drawerLayout.closeDrawer(listView)
+      } else {
+         super.onBackPressed()
+      }
    }
 
    /**
     * Invariant to changes in orientation
     */
    override onConfigurationChanged(Configuration newConfig) {
-       super.onConfigurationChanged(newConfig);
-       actionBarDrawerToggle.onConfigurationChanged(newConfig);
+      super.onConfigurationChanged(newConfig);
+      actionBarDrawerToggle.onConfigurationChanged(newConfig);
    }
 }
