@@ -2,9 +2,15 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/menu_search"
-        android:orderInCategory="1"
-        android:title="Menu item"
-        app:showAsAction="never"/>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_1"
+            android:checked="true"
+            android:icon="@drawable/ic_drawer_item"
+            android:title="Item 1"/>
+        <item
+            android:id="@+id/navigation_item_2"
+            android:icon="@drawable/ic_drawer_item"
+            android:title="Item 2"/>
+    </group>
 </menu>

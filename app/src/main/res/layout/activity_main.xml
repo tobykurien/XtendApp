@@ -23,15 +23,13 @@
             android:layout_height="match_parent"
             android:clickable="true" />
 
-        <ListView
-            android:id="@+id/drawer_list_view"
-            android:layout_width="@dimen/navigation_drawer_width"
+        <android.support.design.widget.NavigationView
+            android:id="@+id/drawer"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="#111"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="1px" />
+            app:headerLayout="@layout/drawer_header"
+            app:menu="@menu/main"/>
 
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
