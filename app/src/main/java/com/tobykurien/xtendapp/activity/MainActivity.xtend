@@ -1,12 +1,10 @@
 package com.tobykurien.xtendapp.activity
 
 import android.support.v7.app.AppCompatActivity
-import android.support.v4.app.Fragment
 import android.content.res.Configuration
-import android.widget.ArrayAdapter
+import android.view.MenuItem
 
 import org.xtendroid.app.AndroidActivity
-import org.xtendroid.annotations.AndroidFragment
 import org.xtendroid.app.OnCreate
 
 import static extension com.tobykurien.xtendapp.utils.Dependencies.*
@@ -69,6 +67,17 @@ import com.tobykurien.xtendapp.R
       setSupportActionBar(toolbar)
       val actionBar = supportActionBar
       actionBar.displayHomeAsUpEnabled = true
+   }
+
+   // Handle drawer item selections
+   override onOptionsItemSelected(MenuItem item) {
+      switch (item.itemId) {
+         case R.id.navigation_item_1: addFragment(0)
+         case R.id.navigation_item_2: addFragment(1)
+         default: return super.onOptionsItemSelected(item)
+      }
+
+      return true
    }
 
    override onBackPressed() {
