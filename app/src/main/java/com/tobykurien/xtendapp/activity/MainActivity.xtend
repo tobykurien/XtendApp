@@ -7,92 +7,100 @@ import android.view.MenuItem
 import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
 
-import static extension com.tobykurien.xtendapp.utils.Dependencies.*
-import org.xtendroid.utils.BgTask
 import com.tobykurien.xtendapp.utils.MyActionBarDrawerToggle
 import com.tobykurien.xtendapp.fragment.FragmentOne
 import com.tobykurien.xtendapp.fragment.FragmentTwo
+import com.tobykurien.xtendapp.fragment.FragmentWelcome
 
 import com.tobykurien.xtendapp.R
 
+import static extension org.xtendroid.utils.AsyncBuilder.*
+import static extension com.tobykurien.xtendapp.utils.Dependencies.*
+
 // Main activity
 @AndroidActivity(R.layout.activity_main) class MainActivity extends AppCompatActivity {
-   MyActionBarDrawerToggle actionBarDrawerToggle
+    MyActionBarDrawerToggle actionBarDrawerToggle
 
-   @OnCreate
-   def init() {
-      setupToolbar()
-      setupDrawerLayout()
-   }
+    @OnCreate
+    def void init() {
+        setupToolbar()
+        setupDrawerLayout()
+        drawer.setNavigationItemSelectedListener = [item|
+            onOptionsItemSelected(item)
+        ]
 
-   def addFragment(int position) {
-      // create a new fragment each time. Change this to cache fragments as necessary.
-      var frag = switch (position) {
-         case 0: new FragmentOne()
-         case 1: new FragmentTwo()
-         default: new FragmentOne()
-      }
+        addFragment(-1)
+    }
 
-      supportFragmentManager
-         .beginTransaction
-         .replace(R.id.container, frag, String.valueOf(position))
-         .commit();
-   }
+    def addFragment(int position) {
+        // create a new fragment each time. Change this to cache fragments as necessary.
+        var frag = switch (position) {
+            case 0: new FragmentOne()
+            case 1: new FragmentTwo()
+            default: new FragmentWelcome()
+        }
 
-   def setupDrawerLayout() {
-      actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
-      drawerLayout.drawerListener = actionBarDrawerToggle
+        supportFragmentManager
+            .beginTransaction
+            .replace(R.id.container, frag, String.valueOf(position))
+            .commit();
+    }
 
-      // This following line actually reveals the hamburger
-      drawerLayout.post [
-         actionBarDrawerToggle.syncState()
-      ];
+    def setupDrawerLayout() {
+        actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
+        drawerLayout.drawerListener = actionBarDrawerToggle
 
-      // open the drawer on first launch to show user that it exists
-      if (!settings.drawerLearned) {
-         new BgTask().runInBg([
-            // wait for UI to be displayed before opening drawer,
-            // so that user can see the animation and know where the
-            // drawer comes from
-            Thread.sleep(2_000)
-            return null
-         ], [
-            // open the drawer. When user closes drawer, settings.drawerLearned will be updated
-            drawerLayout.openDrawer(drawer)
-         ])
-      }
-   }
+        // This following line actually reveals the hamburger
+        drawerLayout.post [
+            actionBarDrawerToggle.syncState()
+        ];
 
-   def setupToolbar() {
-      setSupportActionBar(toolbar)
-      val actionBar = supportActionBar
-      actionBar.displayHomeAsUpEnabled = true
-   }
+        // open the drawer on first launch to show user that it exists
+        if(!settings.drawerLearned) {
+            async [builder, params|
+                // wait for UI to be displayed before opening drawer,
+                // so that user can see the animation and know where the
+                // drawer comes from
+                Thread.sleep(2_000)
+                return null
+            ].then [
+                // open the drawer. When user closes drawer, settings.drawerLearned will be updated
+                drawerLayout.openDrawer(drawer)
+            ].start()
+        }
+    }
 
-   // Handle drawer item selections
-   override onOptionsItemSelected(MenuItem item) {
-      switch (item.itemId) {
-         case R.id.navigation_item_1: addFragment(0)
-         case R.id.navigation_item_2: addFragment(1)
-         default: return super.onOptionsItemSelected(item)
-      }
+    def setupToolbar() {
+        setSupportActionBar(toolbar)
+        val actionBar = supportActionBar
+        actionBar.displayHomeAsUpEnabled = false
+    }
 
-      return true
-   }
+    // Handle drawer item selections
+    override onOptionsItemSelected(MenuItem item) {
+        switch (item.itemId) {
+            case R.id.navigation_item_1: addFragment(0)
+            case R.id.navigation_item_2: addFragment(1)
+            default: return super.onOptionsItemSelected(item)
+        }
 
-   override onBackPressed() {
-      if (drawerLayout.isDrawerOpen(drawer)) {
-         drawerLayout.closeDrawer(drawer)
-      } else {
-         super.onBackPressed()
-      }
-   }
+        drawerLayout.closeDrawer(drawer)
+        return true
+    }
 
-   /**
-    * Invariant to changes in orientation
-    */
-   override onConfigurationChanged(Configuration newConfig) {
-      super.onConfigurationChanged(newConfig);
-      actionBarDrawerToggle.onConfigurationChanged(newConfig);
-   }
+    override onBackPressed() {
+        if(drawerLayout.isDrawerOpen(drawer)) {
+            drawerLayout.closeDrawer(drawer)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    /**
+     * Invariant to changes in orientation
+     */
+    override onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
 }

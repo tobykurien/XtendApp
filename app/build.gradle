@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.xtend.xtend-android'
 
+dependencies {
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:design:23.1.0'
+
+    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.8.3'
+    compile 'com.github.tobykurien:xtendroid:0.12.1'
+}
+
 // If compiling with JDK8, tell Xtend to generate for 1.7 instead
 tasks.withType(org.xtend.gradle.tasks.XtendCompile) {
     sourceCompatibility "1.7"
@@ -8,7 +16,7 @@ tasks.withType(org.xtend.gradle.tasks.XtendCompile) {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "com.tobykurien.xtendapp"
@@ -18,18 +26,18 @@ android {
         versionName "1.0"
     }
 
-    dependencies {
-        //compile fileTree(dir: 'libs', include: ['*.jar'])
-        compile 'com.android.support:design:23.1.0'
-
-        compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.8.3'
-        compile 'com.github.tobykurien:xtendroid:0.12.1'
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dexOptions {
+        incremental true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
     }
 }
