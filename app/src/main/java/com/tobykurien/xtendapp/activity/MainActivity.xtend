@@ -33,8 +33,8 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
     }
 
     def addFragment(int position) {
-        // create a new fragment each time. Change this to cache fragments as necessary.
-        var frag = switch (position) {
+        var frag = supportFragmentManager.findFragmentByTag(String.valueOf(position))
+        if (frag == null) frag = switch (position) {
             case 0: new FragmentOne()
             case 1: new FragmentTwo()
             default: new FragmentWelcome()

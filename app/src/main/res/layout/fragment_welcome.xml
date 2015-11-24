@@ -6,7 +6,7 @@
 
     <TextView
         android:text="@string/welcome"
-        android:textAppearance="@android:style/TextAppearance.Large.Inverse"
+        android:textAppearance="@android:style/TextAppearance.Large"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"/>

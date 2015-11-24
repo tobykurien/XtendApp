@@ -35,6 +35,7 @@ android {
 
     dexOptions {
         incremental true
+        preDexLibraries = false // prevent "multiple dex files define..." error
     }
 
     compileOptions {

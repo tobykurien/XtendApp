@@ -1,15 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/myPrimaryColor</item>
-        <item name="colorPrimaryDark">@color/myPrimaryDarkColor</item>
-        <item name="colorAccent">@color/myAccentColor</item>
-        <item name="android:textColorPrimary">@color/myTextPrimaryColor</item>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="colorAccent">@color/myAccentColor</item>
+        <item name="colorPrimary">@color/myPrimaryColor</item>
+    </style>
 
-        <item name="android:windowBackground">@color/myWindowBackground</item>
+    <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
