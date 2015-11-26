@@ -7,6 +7,13 @@ dependencies {
 
     compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.8.3'
     compile 'com.github.tobykurien:xtendroid:0.12.1'
+
+    // use new testing support library
+    // see: http://google.github.io/android-testing-support-library/docs/index.html
+    androidTestCompile 'com.android.support:support-annotations:23.1.0'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
 }
 
 // If compiling with JDK8, tell Xtend to generate for 1.7 instead
@@ -24,6 +31,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -34,11 +43,14 @@ android {
     }
 
     dexOptions {
-        incremental true
         preDexLibraries = false // prevent "multiple dex files define..." error
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
     }
 }
