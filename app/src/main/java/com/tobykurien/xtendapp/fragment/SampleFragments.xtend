@@ -1,8 +1,9 @@
 package com.tobykurien.xtendapp.fragment
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
-import org.xtendroid.annotations.AndroidFragment
 import com.tobykurien.xtendapp.R
+import org.xtendroid.annotations.AndroidFragment
 import org.xtendroid.app.OnCreate
 
 import static extension org.xtendroid.utils.AlertUtils.*
@@ -26,7 +27,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 // Sample fragment 2
 @AndroidFragment(R.layout.fragment_two) class FragmentTwo extends Fragment {
     @OnCreate
-    def init() {
+    def init(Bundle state) {
         textView.text = "Fragment Two"
         editText.hint = "Fragment two text input"
         button.onClickListener = [

@@ -17,6 +17,7 @@ import com.tobykurien.xtendapp.R
 import static extension org.xtendroid.utils.AlertUtils.*
 import static extension org.xtendroid.utils.AsyncBuilder.*
 import static extension com.tobykurien.xtendapp.utils.Dependencies.*
+import android.support.v4.app.FragmentStatePagerAdapter
 
 // Main activity
 @AndroidActivity(R.layout.activity_main) class MainActivity extends AppCompatActivity {
@@ -30,22 +31,17 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
             onOptionsItemSelected(item)
         ]
 
-        showFragment(-1)
+        pager.setAdapter(fragments)
+
+        // disable swiping of viewpager since we don't have a tablayout
+        pager.onTouchListener = [ true ]
+
+        showFragment(0)
     }
 
     // load the specified fragment
     def showFragment(int position) {
-        var frag = supportFragmentManager.findFragmentByTag(String.valueOf(position))
-        if (frag == null) frag = switch (position) {
-            case 0: new FragmentOne()
-            case 1: new FragmentTwo()
-            default: new FragmentWelcome()
-        }
-
-        supportFragmentManager
-            .beginTransaction
-            .replace(R.id.container, frag, String.valueOf(position))
-            .commit();
+        pager.setCurrentItem(position)
     }
 
     def void setupDrawerLayout() {
@@ -81,8 +77,8 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
     // Handle drawer item selections
     override onOptionsItemSelected(MenuItem item) {
         switch (item.itemId) {
-            case R.id.navigation_item_1: showFragment(0)
-            case R.id.navigation_item_2: showFragment(1)
+            case R.id.navigation_item_1: showFragment(1)
+            case R.id.navigation_item_2: showFragment(2)
             default: return super.onOptionsItemSelected(item)
         }
 
@@ -108,5 +104,23 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
     override onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * Use a pager adapter to manage our fragment lifecycle and save/restore state
+     */
+    FragmentStatePagerAdapter fragments = new FragmentStatePagerAdapter(supportFragmentManager) {
+        override getCount() {
+            3
+        }
+
+        override getItem(int position) {
+            switch (position) {
+                case 0: new FragmentWelcome()
+                case 1: new FragmentOne()
+                case 2: new FragmentTwo()
+                default: new FragmentWelcome()
+            }
+        }
     }
 }
