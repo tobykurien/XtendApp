@@ -14,6 +14,7 @@ import com.tobykurien.xtendapp.fragment.FragmentWelcome
 
 import com.tobykurien.xtendapp.R
 
+import static extension org.xtendroid.utils.AlertUtils.*
 import static extension org.xtendroid.utils.AsyncBuilder.*
 import static extension com.tobykurien.xtendapp.utils.Dependencies.*
 
@@ -29,10 +30,11 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
             onOptionsItemSelected(item)
         ]
 
-        addFragment(-1)
+        showFragment(-1)
     }
 
-    def addFragment(int position) {
+    // load the specified fragment
+    def showFragment(int position) {
         var frag = supportFragmentManager.findFragmentByTag(String.valueOf(position))
         if (frag == null) frag = switch (position) {
             case 0: new FragmentOne()
@@ -46,7 +48,7 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
             .commit();
     }
 
-    def setupDrawerLayout() {
+    def void setupDrawerLayout() {
         actionBarDrawerToggle = new MyActionBarDrawerToggle(this, drawerLayout, toolbar)
         drawerLayout.drawerListener = actionBarDrawerToggle
 
@@ -79,8 +81,8 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
     // Handle drawer item selections
     override onOptionsItemSelected(MenuItem item) {
         switch (item.itemId) {
-            case R.id.navigation_item_1: addFragment(0)
-            case R.id.navigation_item_2: addFragment(1)
+            case R.id.navigation_item_1: showFragment(0)
+            case R.id.navigation_item_2: showFragment(1)
             default: return super.onOptionsItemSelected(item)
         }
 
@@ -91,6 +93,10 @@ import static extension com.tobykurien.xtendapp.utils.Dependencies.*
     override onBackPressed() {
         if(drawerLayout.isDrawerOpen(drawer)) {
             drawerLayout.closeDrawer(drawer)
+        } else if (supportFragmentManager.getBackStackEntryCount == 0) {
+            confirm(getString(R.string.confirm_exit)) [
+                finish()
+            ]
         } else {
             super.onBackPressed()
         }
