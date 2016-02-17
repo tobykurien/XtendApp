@@ -37,15 +37,18 @@ android {
         }
     }
 
+    
     dexOptions {
+        incremental = true
         preDexLibraries = false // prevent "multiple dex files define..." error
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     packagingOptions {
         exclude 'LICENSE.txt'
-    }
+    }   
 }
