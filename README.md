@@ -6,4 +6,4 @@ A skeleton Xtend app with gradle and Android Studio integration, and the Xtendro
 For instructions on how to set up your IDE, see this [wiki entry][as_setup].
 
 
-   [as_setup]: https://github.com/tobykurien/Xtendroid/wiki/HowTo-setup-Android-Studio-%28aka-Intellij%29-support
+   [as_setup]: https://github.com/tobykurien/Xtendroid/wiki/HowTo-setup-Android-Studio-(also-Intellij)-support
