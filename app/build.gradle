@@ -3,14 +3,14 @@ apply plugin: 'org.xtext.android.xtend'
 
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:design:23.2.1'
 
-    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.0'
-    compile 'com.github.tobykurien:xtendroid:0.12.1'
+    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.1'
+    compile 'com.github.tobykurien:xtendroid:0.13'
 
     // use new testing support library
     // see: http://google.github.io/android-testing-support-library/docs/index.html
-    androidTestCompile 'com.android.support:support-annotations:23.1.0'
+    androidTestCompile 'com.android.support:support-annotations:23.2.1'
     androidTestCompile 'com.android.support.test:rules:0.4.1'
     androidTestCompile 'com.android.support.test:runner:0.4.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
@@ -18,7 +18,7 @@ dependencies {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "com.tobykurien.xtendapp"
@@ -50,5 +50,7 @@ android {
 
     packagingOptions {
         exclude 'LICENSE.txt'
+	exclude 'META-INF/ECLIPSE_.SF'
+	exclude 'META-INF/ECLIPSE_.RSA'
     }   
 }
