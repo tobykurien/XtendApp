@@ -5,8 +5,12 @@ dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:design:23.1.1'
     
-    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.1'
-    compile 'com.github.tobykurien:xtendroid:0.13'
+    compile ('com.github.tobykurien:xtendroid:0.13') {
+      // optimise dependency tree
+      exclude module: 'support-v4'
+      exclude module: 'appcompat-v7'
+      exclude module: 'gson'
+    }
 
     // use new testing support library
     // see: http://google.github.io/android-testing-support-library/docs/index.html

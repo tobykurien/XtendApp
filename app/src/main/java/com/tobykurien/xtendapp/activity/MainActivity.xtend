@@ -35,7 +35,6 @@ import android.support.v4.app.FragmentStatePagerAdapter
 
         // disable swiping of viewpager since we don't have a tablayout
         pager.onTouchListener = [ true ]
-
         showFragment(0)
     }
 
